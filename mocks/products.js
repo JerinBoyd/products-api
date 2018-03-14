@@ -1,6 +1,6 @@
 const products = [
     {
-        _id:  'asidhfoi',
+        _id:  '1',
         name: 'Javelin (caution)',
         price: 500,
         imgSrc: 'https://via.placeholder.com/250x250',
@@ -8,7 +8,7 @@ const products = [
 
     },
     {
-        _id:  'asasderoi',
+        _id:  '2',
         name: 'Snail',
         price: 3.99,
         imgSrc: 'https://via.placeholder.com/250x250',
@@ -16,7 +16,7 @@ const products = [
 
     },
     {
-        _id:  'asiadsi',
+        _id:  '3',
         name: 'Rug',
         price: 99.99,
         imgSrc: 'https://via.placeholder.com/250x250',

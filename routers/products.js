@@ -8,7 +8,7 @@ const productArrayToObject = arrayOfProducts => {
   // for each product in arrayOfProducts
   arrayOfProducts.forEach(product => {
     const id = product._id;
-    const copy = { ...product};
+    const copy = { ...product };
     delete copy._id;
     accumulator[id] = copy;
   });
@@ -22,6 +22,17 @@ const productArrayToObject = arrayOfProducts => {
 router.get("/products", (req, res) => {
   res.status(200).json({
     products: productArrayToObject(mockProducts)
+  });
+});
+
+router.get("/products/:id", (req, res) => {
+  const { id } = req.params;
+  const productsObject = productArrayToObject(mockProducts); //this will get deleted
+  const selectedProduct = productsObject[id];
+  res.status(200).json({
+    products: {
+      [id]: selectedProduct
+    }
   });
 });
 
