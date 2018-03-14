@@ -4,7 +4,7 @@ const serverApp = express();
 const PORT = process.env.PORT || 5000;  // necc for heroku deployment
 
 serverApp.get('/', (req, res) => {
-    res. send('Hello! I work');
+    res.send('hi');
 })
 
 serverApp.listen(PORT, () => {
