@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mockProducts = require("../mocks/products");
 
+
 const productArrayToObject = arrayOfProducts => {
   //create an accumaltor object
   const accumulator = {};
@@ -34,6 +35,21 @@ router.get("/products/:id", (req, res) => {
       [id]: selectedProduct
     }
   });
+});
+
+router.post("/products", (req, res) => {
+   const productsObject = productArrayToObject(mockProducts);
+   const id = 1232341231 * Math.random();
+    const newProduct = {
+        name: 'something new',
+        price: 1000,
+        created: new Date(),
+        imgSrc: 'https://via.placeholder.com/250x250',
+    }
+    mockProducts.push(newProduct);
+    res.status(201).json({
+        msg: 'successsfully created product'
+    })
 });
 
 module.exports = router; // like export default
