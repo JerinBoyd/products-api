@@ -38,17 +38,21 @@ router.get("/products/:id", (req, res) => {
 });
 
 router.post("/products", (req, res) => {
-   const productsObject = productArrayToObject(mockProducts);
-   const id = 1232341231 * Math.random();
-    const newProduct = {
+    const product = new Product({
         name: 'something new',
         price: 1000,
-        created: new Date(),
         imgSrc: 'https://via.placeholder.com/250x250',
-    }
-    mockProducts.push(newProduct);
-    res.status(201).json({
-        msg: 'successsfully created product'
+    })
+    product
+        .save()
+        .then(response => { res.status(201).json({
+            msg: 'successsfully created product'})
+        .catch(err => {
+            res.status(500).json({
+                msg: 'You stuf is broked'
+            });
+        })
+   
     })
 });
 
