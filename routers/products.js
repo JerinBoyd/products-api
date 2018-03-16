@@ -2,14 +2,14 @@ const express = require("express");
 const router = express.Router();
 const mockProducts = require("../mocks/products");
 
-const Product = require('../models/product');
+const Product = require("../models/product");
 const productArrayToObject = arrayOfProducts => {
   //create an accumaltor object
   const accumulator = {};
   // for each product in arrayOfProducts
   arrayOfProducts.forEach(product => {
     const id = product._id;
-    const copy = { ...product };
+    const copy = { ...product._doc };
     delete copy._id;
     accumulator[id] = copy;
   });
@@ -21,9 +21,18 @@ const productArrayToObject = arrayOfProducts => {
 };
 
 router.get("/products", (req, res) => {
-  res.status(200).json({
-    products: productArrayToObject(mockProducts)
-  });
+  Product.find()
+    .exec()
+    .then(allProducts => {
+      res.status(200).json({
+        products: productArrayToObject(allProducts)
+      });
+    })
+    .catch(err => {
+      re.status(500).json({
+        msg: "broken again"
+      });
+    });
 });
 
 router.get("/products/:id", (req, res) => {
@@ -38,22 +47,23 @@ router.get("/products/:id", (req, res) => {
 });
 
 router.post("/products", (req, res) => {
-    const product = new Product({
-        name: 'something new',
-        price: 1000,
-        imgSrc: 'https://via.placeholder.com/250x250',
-    })
-    product
-        .save()
-        .then(response => { res.status(201).json({
-            msg: 'successsfully created product'})
-        .catch(err => {
-            res.status(500).json({
-                msg: 'You stuf is broked'
-            });
-        })
-   
-    })
+  const product = new Product({
+    name: "something new",
+    price: 1000,
+    imgSrc: "https://via.placeholder.com/250x250"
+  });
+  product.save().then(response => {
+    res
+      .status(201)
+      .json({
+        msg: "successsfully created product"
+      })
+      .catch(err => {
+        res.status(500).json({
+          msg: "You stuf is broked"
+        });
+      });
+  });
 });
 
 module.exports = router; // like export default
