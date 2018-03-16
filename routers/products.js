@@ -37,13 +37,23 @@ router.get("/products", (req, res) => {
 
 router.get("/products/:id", (req, res) => {
   const { id } = req.params;
-  const productsObject = productArrayToObject(mockProducts); //this will get deleted
-  const selectedProduct = productsObject[id];
-  res.status(200).json({
-    products: {
-      [id]: selectedProduct
-    }
-  });
+  Product.findById(id)
+    .exec()
+    .then(selectedProduct => {
+        const selectedId = selectedProduct._id;
+        const copy = {...selectedProduct.doc};
+        delete copy._id
+      res.status(200).json({
+        products: {
+          [selectedId]: copy
+        }
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        masg: "really really broke"
+      });
+    });
 });
 
 router.post("/products", (req, res) => {
