@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 
 require('dotenv').config();
 
-mongoose.connect(process.env.MONGO_URI);
+mongoose.connect(process.env.MONGO_URI); //has to be put after require('dotenv')
 const PORT = process.env.PORT || 5000; // necc for heroku deployment
 
 //routers

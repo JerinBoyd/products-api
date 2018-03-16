@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mockProducts = require("../mocks/products");
 
-
+const Product = require('../models/product');
 const productArrayToObject = arrayOfProducts => {
   //create an accumaltor object
   const accumulator = {};
