@@ -6,6 +6,7 @@ require("dotenv").config();
 
 //middleware imports
 const logger = require("./middlewares/logger");
+
 const notFound = require("./middlewares/404");
 
 mongoose.connect(process.env.MONGO_URI);
@@ -22,6 +23,11 @@ serverApp.get("/", (req, res) => {
 });
 
 serverApp.use(notFound);
+serverApp.use(function serverErrorHandler(err, req, res, next) {
+  res.status(500).json({
+    msg: "something is broke"
+  });
+});
 
 serverApp.listen(PORT, () => {
   console.log(`Now listening on port ${PORT}`);
