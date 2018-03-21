@@ -5,6 +5,9 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 //middleware imports
+const bodyParser = require("body-parser");
+serverApp.use(bodyParser.json)();
+serverApp.use(bodyParser.urlencoded({ extended: true }));
 const logger = require("./middlewares/logger");
 
 const notFound = require("./middlewares/404");
