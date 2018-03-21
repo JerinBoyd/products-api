@@ -21,7 +21,7 @@ const productArrToObj = arrayOfProducts => {
   return accumulator;
 };
 
-router.get("/products", (req, res) => {
+router.get("/products", (req, res, next) => {
   Product.find()
     .exec()
     .then(allProducts => {
@@ -29,14 +29,10 @@ router.get("/products", (req, res) => {
         products: productArrToObj(allProducts)
       });
     })
-    .catch(err => {
-      res.status(500).json({
-        msg: "Brokked again!!!"
-      });
-    });
+    .catch(next);
 });
 
-router.get("/products/:id", (req, res) => {
+router.get("/products/:id", (req, res, next) => {
   const { id } = req.params;
   Product.findById(id)
     .exec()
@@ -50,15 +46,11 @@ router.get("/products/:id", (req, res) => {
         }
       });
     })
-    .catch(err => {
-      res.status(500).json({
-        msg: "do not look behind you."
-      });
-    });
+    .catch(next);
 });
 
 //post means create
-router.post("/products", (req, res) => {
+router.post("/products", (req, res, next) => {
   const product = new Product({
     name: "something new",
     price: 1000,
@@ -71,45 +63,33 @@ router.post("/products", (req, res) => {
         msg: "successfully created product"
       });
     })
-    .catch(err => {
-      res.status(500).json({
-        msg: "Your stuff done broke."
-      });
-    });
+    .catch(next);
 });
 
 //update (put)
-router.put("/products/:id", (req, res) => {
+router.put("/products/:id", (req, res, next) => {
   const { id } = req.params;
   const update = {
-      name: 'updated name'
+    name: "updated name"
   };
   Product.findByIdAndUpdate(id, update)
-        .then(response => {
-            res.status('200').json({
-                msg: 'you have been updated'
-            })
-        })
-        .catch(err => {
-            res.status('500').json({
-                msg: 'you are broken'
-            })
-        })
+    .then(response => {
+      res.status("200").json({
+        msg: "you have been updated"
+      });
+    })
+    .catch(next);
 });
 // delete
-router.delete("/products/:id", (req, res) => {
-    const { id } = req.params;
+router.delete("/products/:id", (req, res, next) => {
+  const { id } = req.params;
   Product.findByIdAndRemove(id)
-  .then(response => {
-      res.status('200').json({
-          msg: 'Successfully deleted'
-      })
-  })
-  .catch(err => {
-      res.status('500').json({
-          msg: 'something is broken'
-      })
-  })
+    .then(response => {
+      res.status("200").json({
+        msg: "Successfully deleted"
+      });
+    })
+    .catch(next);
 });
 
 module.exports = router; //like export default
